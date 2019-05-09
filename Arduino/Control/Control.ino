@@ -1,10 +1,6 @@
 #include <SPI.h>
-//#include <pcmConfig.h>
-//#include <pcmRF.h>
-//#include <TMRpcm.h>
 #include <SD.h>
 #define pinSD 10    // pin CS arduino UNO 10 / MEGA 53                     
-//TMRpcm tmrpcm;
 
 #define   LED_Red  2
 #define   LED_Blue    4
