@@ -11,8 +11,7 @@ class Star {
   }
   
   void display(float dx, float dy) {
-    // Locating and drawing the shape
-    //translate(485, 150);
+    
     star.beginShape();
     if(setOn){
       star.fill(#FFEF3D);

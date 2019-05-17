@@ -5,10 +5,11 @@ Serial myPort;  //the Serial port object
 String val;
 Integer UsrVal, PcVal;
 Integer mPortNum = 0;
-boolean firstContact, usrTurn, GameOver;
+boolean firstContact, usrTurn, GameOver, nextTile, tileVisible;
 PImage bg, clave;
 float tileWidth, tileHeight;
 float padding = 41;
+float timer, mTimer;
 color[] tilesOff;
 color[] tilesOn;
 SoundFile[] tilesSound;
@@ -26,7 +27,7 @@ int currentSequenceLenght = startSequenceLenght;
 int starsOn, currentLevel;
 
 void setup(){
-  setPort(mPortNum);
+//  setPort(mPortNum);
   
   size(displayWidth, displayHeight);
   bg = loadImage("resources/imgs/background.jpg");
@@ -41,22 +42,25 @@ void setup(){
   firstContact = true;
   usrTurn = false;
   GameOver = false;
-  
+  tileVisible = false;
+    
+  mTimer = 1.5f;
+  timer = mTimer;
   tileWidth = 250;
   tileHeight = displayHeight + 306;
   //drawBackground();
   CreateTiles();
+  GenerateValue();
 }
 
 void draw(){
-  if(usrTurn == false){
+  //if(usrTurn == false){
     drawBackground();
-    println("PCturn");
-    PcVal = GenerateValue();
+    //println("PCturn");
+    //PcVal = GenerateValue();
     ShowTile(PcVal);
-    usrTurn = true;
-    UsrVal = 0;
-  }
+    //usrTurn = true;
+  //}
   //Wait userTurn -> PianoControls.serialEvent.evaluateUsrInput
   
   /*
@@ -113,7 +117,7 @@ void CreateTiles(){
 
 void CreateStars(){
   stars = new ArrayList<Star>();
-  println("Creating stars");
+  //println("Creating stars");
   for (int y=0; y < 5; y++){
     Star s = new Star();
     if(y < starsOn){
@@ -138,6 +142,10 @@ void CreateStars(){
 
 void ShowTile(int tile){
   Tecla t = teclas.get(tile-1);
+  if(usrTurn == false){
+    t.flash();
+    usrTurn = true;
+  }
   DrawTile(t);
 }
 
@@ -146,26 +154,44 @@ int GetColorIndex(int index){
 }
 
 void DrawTile(Tecla t){
-  noStroke();
-  t.flash();
-  fill(t.tileColor);
-  rect(t.position.x, t.position.y, tileWidth, tileHeight);
+  if(tileVisible){
+    noStroke();
+    t.update();
+    fill(t.tileColor);
+    rect(t.position.x, t.position.y, tileWidth, tileHeight);
+  }
+  else{
+    timer();
+  }
 }
 
 void setStars(int value){
-  if(starsOn > 0){
+  if(starsOn >= 0){
     stars.clear();
     starsOn += value;
+    if(starsOn >= 5){
+      starsOn = 5;
+    }
+    if(starsOn <= 0){
+      starsOn = 0;
+    }
     CreateStars();
-  }
-  else{
-    GameOver = true;
   }
 }
 
 void drawBackground(){
-  println("Redibujando fondo");
+  //println("Redibujando fondo");
   background(bg);
   drawSheetMusic();
   CreateStars();
+}
+
+void timer(){
+  if(timer >= 0){
+    timer -= 0.125f;
+  }
+  else{
+    tileVisible = true;
+    timer = mTimer;
+  }
 }

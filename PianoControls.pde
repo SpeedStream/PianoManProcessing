@@ -44,3 +44,18 @@ void serialEvent(Serial thePort) {
     }
   }
 }
+
+void mousePressed(){
+  if((mouseX > 121 && mouseX <  121 + tileWidth) && (mouseY > 306 && mouseY < tileHeight)){
+    evaluateUsrInput(PcVal, 1);
+  }
+  if((mouseX > 421 && mouseX <  421 + tileWidth) && (mouseY > 306 && mouseY < tileHeight)){
+    evaluateUsrInput(PcVal, 2);
+  }
+  if((mouseX > 703 && mouseX <  703 + tileWidth) && (mouseY > 306 && mouseY < tileHeight)){
+    evaluateUsrInput(PcVal, 3);
+  }
+  if((mouseX > 994 && mouseX <  994 + tileWidth) && (mouseY > 306 && mouseY < tileHeight)){
+    evaluateUsrInput(PcVal, 4);
+  }
+}
