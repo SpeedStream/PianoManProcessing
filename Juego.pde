@@ -16,6 +16,7 @@ void evaluateUsrInput(int PVal, int UVal){
 
 void GenerateValue(){
   tileVisible = false;
+  usrTurn = false;
   PcVal = (int)random(1,5);
-  println("Juego.GenerateValue.genVal -> " + PcVal); 
+  println("Juego.GenerateValue.genVal -> " + PcVal);
 }

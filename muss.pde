@@ -27,7 +27,7 @@ int currentSequenceLenght = startSequenceLenght;
 int starsOn, currentLevel;
 
 void setup(){
-//  setPort(mPortNum);
+  setPort(mPortNum);
   
   size(displayWidth, displayHeight);
   bg = loadImage("resources/imgs/background.jpg");
@@ -38,13 +38,13 @@ void setup(){
   tilesOff = new color[] {color(100, 0, 0, 255), color(0, 0, 100, 255), color(100, 100, 0, 255), color(0, 100, 0, 255)};  //R, B, Y, G
   tilesOn = new color[] {color(255, 0, 0, 255), color(0, 0, 255, 255), color(255, 255, 0, 255), color(0, 255, 0, 255)};   //R, B, Y, G
   tilesSound = new SoundFile[] {new SoundFile(this, "resources/audio/do.wav"), new SoundFile(this, "resources/audio/mi.wav"), new SoundFile(this, "resources/audio/si.wav"), new SoundFile(this, "resources/audio/sol.wav")};
-  starsOn = 3;
+  starsOn = 0;
   firstContact = true;
   usrTurn = false;
   GameOver = false;
   tileVisible = false;
     
-  mTimer = 1.5f;
+  mTimer = 2.5f;
   timer = mTimer;
   tileWidth = 250;
   tileHeight = displayHeight + 306;
@@ -161,7 +161,7 @@ void DrawTile(Tecla t){
     rect(t.position.x, t.position.y, tileWidth, tileHeight);
   }
   else{
-    timer();
+      timer();
   }
 }
 

@@ -8,7 +8,7 @@ class Rectangle{
   boolean mVisible;
   SoundFile sound;
   final private float flashTimePerFrame = 0.125f;
-  final private float flashTime = 1.0f;
+  final private float flashTime = 1.5f;
   private float flashTimer = 0.0f;
   
   public void flash(){
@@ -18,11 +18,8 @@ class Rectangle{
     flashTimer = flashTime;
   }
   
-  public void hideTile(){
-    noFill();
-  }
-  
   private void playSound(){
+    //println(!sound.isPlaying() + " | " + isFlashed + " | " + isPlaying);
     if(!sound.isPlaying() && (isFlashed) && (isPlaying)){
       sound.play();
       isPlaying = false;
@@ -58,7 +55,4 @@ class Tecla extends Rectangle{
     showOkMessage();
   }
   
-  void hide(){
-    hideTile();
-  }
 }
