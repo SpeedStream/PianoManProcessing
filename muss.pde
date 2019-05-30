@@ -54,36 +54,8 @@ void setup(){
 }
 
 void draw(){
-  //if(usrTurn == false){
     drawBackground();
-    //println("PCturn");
-    //PcVal = GenerateValue();
     ShowTile(PcVal);
-    //usrTurn = true;
-  //}
-  //Wait userTurn -> PianoControls.serialEvent.evaluateUsrInput
-  
-  /*
-  else{
-    if (UsrVal != 0) {
-      println("UsrPreseed");
-      boolean cv = CompareValues(PcVal, UsrVal); 
-      if(cv){
-        println("Usr correcto");
-        ShowTile(UsrVal);
-        usrTurn = false;
-      }
-      else{
-        println("Wrong tile");
-        setDownStar(); //Disminuye estrella
-        println("Starts -> " + starsOn);
-        delay(3000);
-      }
-      //borrar teclado
-    }
-    
-  }
-  */
 }
 
 void drawSheetMusic(){

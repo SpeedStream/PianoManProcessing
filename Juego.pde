@@ -5,6 +5,7 @@ void evaluateUsrInput(int PVal, int UVal){
       usrTurn = false;
       ShowTile(UVal);
       setStars(+1);  //+1 estrella
+      //GenerateValue();
     }
     else{
       println("Wrong tile");

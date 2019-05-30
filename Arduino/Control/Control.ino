@@ -1,6 +1,8 @@
-#include <SPI.h>
-#include <SD.h>
-#define pinSD 10    // pin CS arduino UNO 10 / MEGA 53                     
+/*
+ * Aarón E. Santos
+ * 30/05/2019
+ * Versión para handshake con processing
+*/
 
 #define   LED_Red  2
 #define   LED_Blue    4
@@ -18,8 +20,9 @@ int pad_Red = 0;
 int pad_Blue = 0;
 int pad_Yellow = 0;
 int pad_Green = 0;
-char PCValue;
+int i = 10000;
 bool handshake = false;
+bool contact = false;
 
 void setup() {
   // put your setup code here, to run once:
@@ -36,20 +39,40 @@ void setup() {
   pinMode(LED_Yellow, OUTPUT);
   pinMode(LED_Green, OUTPUT);
   setAllLedsOff();
+  doHandshake();
 }
 
 void loop() {
-  /*
-   * WARNING: Handshake still in development. DO NOT UNCOMMENT THIS
-   * 
-   * if(!handshake){
-   *  DoHandShake(Serial.read());
-   * }
-   * else{
-   *  ControlMode();
-   * }
-  */
-  ControlMode();
+  //if(contact){
+    UserInput();
+  /*}
+  else{
+    doHandshake();
+  }*/
+}
+
+void doHandshake(){
+  while(!contact){
+    //Serial.println("doHandshake.while.!contact");
+    digitalWrite(LED_Red, HIGH);
+    establishContact();
+  }
+  digitalWrite(LED_Red, LOW);
+  digitalWrite(LED_Green, HIGH);
+  digitalWrite(LED_Yellow, HIGH);
+  digitalWrite(LED_Blue, HIGH);
+  Serial.println('M');
+  setAllLedsOff();
+}
+
+void establishContact(){
+  if((Serial.available() > 0) && (Serial.read() == 'P')){
+    Serial.print("Value recieved -> " + Serial.read());
+    contact = true;
+  }
+  /*if(Serial.readString() == 'P'){
+    handshake = true;
+  }*/
 }
 
 void secuenciaInicio() {
@@ -75,31 +98,6 @@ void secuenciaGameOver() {
   setAllLedsOff();
 }
 
-void DoHandShake(char value) {
-  /*
-   * Still in development 
-   * Mantener comunicación de handshake PC-Arduino
-   * para establecer puerto de conexión.
-   * Ciclo de vida:
-   *  * PC lee todos los puertos para establecer conexión
-   *  * Por cada uno de ellos:
-   *  *  * PC conecta al puerto P
-   *  *  * PC escribe 'P' al puerto P y espera N intentos
-   *  *  * Si PC recibe respuesta 'M'
-   *  *  *  * PC mantiene conexión en ese puerto
-   *  *  *  * Ard pasa a modo "Control" -> Invoca permanentemente UsrInput()
-   *  *  * Else
-   *  *  *  * PC pasa a probar con el siguiente puerto disponible
-   *  
-   * value -> Valor recibido desde la PC (enviado por Processing)
-  */
-  if(value == 'P'){
-    setAllLedsOff();
-    Serial.write("M");
-    handshake = true;
-  }
-}
-
 void setLedOn(int ledID, int timedelay) {
   digitalWrite(ledID, HIGH);
   delay(timedelay);
@@ -120,7 +118,7 @@ void setAllLedsOff() {
   digitalWrite(LED_Green, LOW);
 }
 
-void ControlMode() {
+void UserInput() {
   /*
      Pad presionado -> Enciende LED correspondiente
      Mostrar en consola el valor presionado
