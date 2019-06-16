@@ -1,6 +1,7 @@
 Pianoman with processing
 
 16/Junio/2018 - SpeedStream
+
 **PIANOMAN**
 >Se agrega soporte para dos niveles de juego:
   LVL1 --> Estrellas de contadores
@@ -15,7 +16,8 @@ feeling para el juego (Sugiero verificar con algún chico de SS para diseñar un
 - - - - - - - - - - - - - - - - -
 
 30/Mayo/2018 - SpeedStream
-**PIANOMAN*
+
+**PIANOMAN**
 >Se añade el compilado para ejecutar en windows.
 
 **ARDUINO**
@@ -24,6 +26,7 @@ feeling para el juego (Sugiero verificar con algún chico de SS para diseñar un
 - - - - - - - - - - - - - - - - -
 
 09/Mayo/2019 - SpeedStream
+
 **PIANOMAN**
 
 **ARDUINO**
