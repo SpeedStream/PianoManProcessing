@@ -4,14 +4,15 @@ void evaluateUsrInput(int PVal, int UVal){
       println("Correct tile");
       usrTurn = false;
       ShowTile(UVal);
-      setStars(+1);  //+1 estrella
-      //GenerateValue();
+      setFigures(+1);  //+1 estrella
+      GenerateValue();
     }
-    else{
+    /*else{
       println("Wrong tile");
-      setStars(-1);  //-1 estrella 
+      setFigures(-1);  //-1 estrella 
     }
     GenerateValue();
+    */
   }
 }
 

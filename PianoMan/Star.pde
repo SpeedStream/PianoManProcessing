@@ -34,3 +34,22 @@ class Star {
     shape(star, dx, dy);
   }
 }
+
+class Moon{
+  private boolean setOn = false;
+  
+  void setOn(boolean _setOn){
+    setOn = _setOn;
+  }
+  
+  void display(float dx, float dy){
+    if(setOn){
+      fill(#FFEF3D);
+    }
+    else{
+      fill(#B5A1A8);
+    }
+    noStroke();
+    ellipse(dx, dy, 80, 80);
+  }
+}

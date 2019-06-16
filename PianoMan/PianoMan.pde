@@ -14,20 +14,14 @@ color[] tilesOff;
 color[] tilesOn;
 SoundFile[] tilesSound;
 ArrayList<Tecla> teclas;
-ArrayList<Tecla> secuencia;
-ArrayList<Tecla> currentSequence;
-ArrayList<Tecla> flashSequence;
 ArrayList<Star> stars;
+ArrayList<Moon> moons;
 
-Tecla currentFlashed;
-Tecla selectedTile = null;
 int numTiles = 4;
-final int startSequenceLenght = 0;
-int currentSequenceLenght = startSequenceLenght;
-int starsOn, currentLevel;
+int FiguresOn, currentLevel;
 
 void setup(){
-  setPort(mPortNum);
+  //setPort(mPortNum);
   
   size(displayWidth, displayHeight);
   bg = loadImage("resources/imgs/background.jpg");
@@ -35,10 +29,16 @@ void setup(){
   
   teclas = new ArrayList<Tecla>();
   stars = new ArrayList<Star>();
+  moons = new ArrayList<Moon>();
   tilesOff = new color[] {color(100, 0, 0, 255), color(0, 0, 100, 255), color(100, 100, 0, 255), color(0, 100, 0, 255)};  //R, B, Y, G
   tilesOn = new color[] {color(255, 0, 0, 255), color(0, 0, 255, 255), color(255, 255, 0, 255), color(0, 255, 0, 255)};   //R, B, Y, G
-  tilesSound = new SoundFile[] {new SoundFile(this, "resources/audio/do.wav"), new SoundFile(this, "resources/audio/mi.wav"), new SoundFile(this, "resources/audio/si.wav"), new SoundFile(this, "resources/audio/sol.wav")};
-  starsOn = 0;
+  tilesSound = new SoundFile[] {
+                new SoundFile(this, "resources/audio/do.wav"),
+                new SoundFile(this, "resources/audio/mi.wav"),
+                new SoundFile(this, "resources/audio/si.wav"),
+                new SoundFile(this, "resources/audio/sol.wav")
+              };
+  FiguresOn = 0;
   firstContact = true;
   usrTurn = false;
   GameOver = false;
@@ -48,7 +48,7 @@ void setup(){
   timer = mTimer;
   tileWidth = 250;
   tileHeight = displayHeight + 306;
-  //drawBackground();
+  currentLevel = 0;
   CreateTiles();
   GenerateValue();
 }
@@ -89,10 +89,9 @@ void CreateTiles(){
 
 void CreateStars(){
   stars = new ArrayList<Star>();
-  //println("Creating stars");
   for (int y=0; y < 5; y++){
     Star s = new Star();
-    if(y < starsOn){
+    if(y < FiguresOn){
       s.setOn(true);
     }
     int yval = 0;
@@ -109,6 +108,41 @@ void CreateStars(){
     }
     s.display((width-300)/5 * (y+1) + 100, yval);
     stars.add(s);
+  }
+}
+
+void CreateMoons(){
+  moons = new ArrayList<Moon>();
+  for (int y=0; y < 5; y++){
+    Moon s = new Moon();
+    if(y < FiguresOn){
+      s.setOn(true);
+    }
+    int yval = 0;
+    switch(y%3){
+      case 0:
+        yval = 100;
+        break;
+      case 1:
+        yval = 130;
+        break;
+      case 2: 
+        yval = 160;
+        break;
+    }
+    s.display((width-300)/5 * (y+1) + 100, yval);
+    moons.add(s);
+  }
+}
+
+void DrawFigures(){
+  switch(currentLevel){
+    case 0:
+      CreateStars();
+      break;
+    case 1:
+      CreateMoons();
+      break;
   }
 }
 
@@ -137,25 +171,26 @@ void DrawTile(Tecla t){
   }
 }
 
-void setStars(int value){
-  if(starsOn >= 0){
+void setFigures(int value){
+  if(FiguresOn >= 0){
+    FiguresOn += value;
+    if(FiguresOn >= 5){
+      currentLevel += 1;
+      FiguresOn = 0;
+    }
     stars.clear();
-    starsOn += value;
-    if(starsOn >= 5){
-      starsOn = 5;
+    moons.clear();
+    if(FiguresOn <= 0){
+      FiguresOn = 0;
     }
-    if(starsOn <= 0){
-      starsOn = 0;
-    }
-    CreateStars();
+    DrawFigures();
   }
 }
 
 void drawBackground(){
-  //println("Redibujando fondo");
   background(bg);
   drawSheetMusic();
-  CreateStars();
+  DrawFigures();
 }
 
 void timer(){
